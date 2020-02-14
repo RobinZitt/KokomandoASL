@@ -10,12 +10,12 @@ state("Kokomando")
 
 init
 {
-	vars.LastLevel = 0;
 	vars.CutsceneNumber = 0;
 	vars.Enter = true;
 	vars.CutsceneCurrent = 0;
 	vars.FinalCut = false;
 	vars.CutsceneLimit = 3;
+	vars.LastLevel = true;
 }
 
 startup
@@ -44,35 +44,43 @@ split{
 	if(current.Level != old.Level && current.Level != "menu" && old.Level != "menu" && old.Level != "level15"){
 		return true;
 	}
+	if(current.Level == "menu" && !vars.LastLevel){
+		vars.LastLevel = true;
+	}
 	//Code for split on final cutscene
-	if(current.Level == "level20" && current.Level != old.Level){
-		vars.Enter = true;
-		vars.CutsceneNumber = 0;
-		vars.FinalCut = false;
-	}
-	if(current.Level == "level20" && current.IsLoading != 224 && vars.Enter && settings["option2"]){
-		if(settings["option2.0"]){
-			vars.CutsceneLimit = 1;
-		}
-		if(settings["option2.2"]){
-			vars.CutsceneLimit = 5;
-		}
-		if(settings["option2.1"]){
+	if(current.Level == "level20" || current.Level == "Level20"){
+		if(vars.LastLevel){
+			vars.Enter = true;
+			vars.CutsceneNumber = 0;
+			vars.FinalCut = false;
 			vars.CutsceneLimit = 3;
+			vars.LastLevel = false;
 		}
-		vars.CutsceneCurrent = current.Cutscene;
-		vars.Enter = false;
-	}
-	if(!vars.Enter){
-		if(vars.CutsceneCurrent != current.Cutscene){
-			vars.CutsceneNumber++;
+		if(current.IsLoading != 224 && vars.Enter && settings["option2"]){
+			if(settings["option2.0"]){
+				vars.CutsceneLimit = 1;
+			}
+			if(settings["option2.2"]){
+				vars.CutsceneLimit = 5;
+			}
+			if(settings["option2.1"]){
+				vars.CutsceneLimit = 3;
+			}
 			vars.CutsceneCurrent = current.Cutscene;
+			vars.Enter = false;
 		}
-		if(vars.CutsceneNumber == vars.CutsceneLimit && !vars.FinalCut){
-			vars.FinalCut = true;
-			return true;
+		if(!vars.Enter){
+			if(vars.CutsceneCurrent != current.Cutscene){
+				vars.CutsceneNumber++;
+				vars.CutsceneCurrent = current.Cutscene;
+			}
+			if(vars.CutsceneNumber == vars.CutsceneLimit && !vars.FinalCut){
+				vars.FinalCut = true;
+				return true;
+			}
 		}
 	}
+	
 }
 
 isLoading
