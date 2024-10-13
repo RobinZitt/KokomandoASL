@@ -7,4 +7,4 @@
 ## Last Split
 Currently the autosplitter counts the cutscenes in the last level and splits on the beginning of the second cutscene. This counter can be changed to the first or third cutscene in the settings, if you can skip the first cutscene (There is currently no (efficient) way to do that) or you want to activate an additional cutscene. I will try to change that in the future, so the split works independently from the amount of cutscenes you activate.
 ## Contact
-If there are any issues or requests regarding this autosplitter you can contact me on [Twitter](https://twitter.com/vektor_dioptas) or on Discord (Dioptas#9985). I usually check twitter more regularly.
+If there are any issues or requests regarding this autosplitter you can contact me on discord (dioptas).
